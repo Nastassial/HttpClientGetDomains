@@ -4,9 +4,7 @@ internal class HttpClientManager
 {
     private readonly HttpClient _httpClient = new HttpClient();
 
-    private readonly string _url;
-
-    public string Url { get { return _url; } }
+    private string _url { get; }
 
     public HttpClientManager(string url) 
     {
@@ -15,7 +13,7 @@ internal class HttpClientManager
 
     public async Task<string> GetContent()
     {
-        HttpResponseMessage httpResponse = await _httpClient.GetAsync(Url);
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync(_url);
 
         if (httpResponse.IsSuccessStatusCode)
         {
