@@ -1,19 +1,12 @@
 ﻿namespace HttpClientGetDomains.Classes;
 
-internal class HttpClientManager
+internal static class HttpClientManager
 {
-    private readonly HttpClient _httpClient = new HttpClient();
+    private static readonly HttpClient _httpClient = new HttpClient();
 
-    private string _url { get; }
-
-    public HttpClientManager(string url) 
+    public static async Task<string> GetContent(string url)
     {
-        _url = url;
-    }
-
-    public async Task<string> GetContent()
-    {
-        HttpResponseMessage httpResponse = await _httpClient.GetAsync(_url);
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync(url);
 
         if (httpResponse.IsSuccessStatusCode)
         {

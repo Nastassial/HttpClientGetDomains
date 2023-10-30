@@ -1,30 +1,25 @@
-﻿using System.Text;
-using HttpClientGetDomains.Classes;
+﻿using HttpClientGetDomains.Classes;
 
 int domainPagesCnt = 0;
 const string url = "https://ru.wikipedia.org/wiki/";
 
 FileManager fileManager = new FileManager();
- 
-StringBuilder domain = new StringBuilder();
 
 char[] letters = Enumerable.Range('a', 'z' - 'a' + 1).Select(c => (char)c).ToArray(); // sequence "abcdefghijklmnopqrstuvwxyz"
 
-for (int i = 0; i < letters.Length; i++)
+foreach (char i in letters)
 {
-    for (int j = 0; j < letters.Length; j++)
+    foreach (char j in letters)
     {
-        domain.Clear().Append('.').Append(letters[i]).Append(letters[j]);
+        string domain = $".{i}{j}";
 
-        HttpClientManager httpClientManager = new HttpClientManager($"{url}{domain}");
-
-        string content = httpClientManager.GetContent().Result;
+        string content = HttpClientManager.GetContent($"{url}{domain}").Result;
 
         if (!string.IsNullOrEmpty(content))
         {
-            Console.WriteLine(domain.ToString());
+            Console.WriteLine(domain);
 
-            fileManager.FileName = domain.ToString() + ".html";
+            fileManager.FileName = $"{domain}.html";
             fileManager.Write(content);
 
             domainPagesCnt++;
